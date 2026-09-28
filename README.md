@@ -13,11 +13,15 @@
   <img src="https://img.shields.io/badge/Inference-INT8%20CNN-2E8B57?style=flat-square" alt="INT8 CNN">
 </p>
 
+<p>
+  <img src="./assets/event_camera_hardware.png" width="72%" alt="Zybo Z7-20 및 Pan/Tilt 하드웨어 구성 이미지">
+</p>
+
 **영상의 밝기 변화를 이벤트 텐서로 변환하고, FPGA NPU가 추론한 표적 위치를 카메라·레이저의 4축 Pan/Tilt 제어로 연결한 Zynq SoC 프로젝트입니다.**
 
 INT8 Exact Cell Accuracy **92.02%** · NPU Inference **1.258 ms** · PL Clock **100 MHz**
 
-[팀 통합 저장소](https://github.com/kimdk1005-collab/NPU_Project) · [팀원 프로젝트 자료](https://github.com/dlgus0630/Project06_EventCamera)
+[▶ 시연 영상](https://www.youtube.com/watch?v=w5nIa1r8d8o) · [팀 통합 저장소](https://github.com/kimdk1005-collab/NPU_Project) · [팀원 프로젝트 자료](https://github.com/dlgus0630/Project06_EventCamera)
 
 </div>
 
@@ -75,6 +79,12 @@ INT8 Exact Cell Accuracy **92.02%** · NPU Inference **1.258 ms** · PL Clock **
 ---
 
 ## 3. System Architecture
+
+### Vivado Block Design
+
+[![Zynq PS와 Event·NPU·Control을 연결한 Vivado Block Design](./assets/system_block_design_vivado.png)](./assets/system_block_design_vivado.png)
+
+*팀 통합 설계의 Block Design 화면입니다. PS의 AXI 연결과 PL의 서보 4채널·레이저 출력, Arm·E-stop 입력을 확인할 수 있습니다. 이미지를 클릭하면 원본 크기로 볼 수 있습니다.*
 
 ### Functional Dataflow
 
@@ -293,6 +303,24 @@ Dead Zone 밖: 오차에 비례한 이동량 계산 → 이동량 제한 → 위
 
 ## 10. Validation & Performance
 
+### Demo Video
+
+[▶ 이벤트 카메라 기반 실시간 객체 추적 시스템 시연 영상 보기](https://www.youtube.com/watch?v=w5nIa1r8d8o)
+
+### XSim Waveforms
+
+**Conv1~Conv4 및 Argmax 추론**
+
+[![Conv1~Conv4 실행과 추론 완료를 보여주는 XSim 파형](./assets/npu_inference_xsim.png)](./assets/npu_inference_xsim.png)
+
+*계층 전환과 완료 신호를 확인하는 팀 검증 파형입니다. 결과 좌표 `0x24 / 0x1C`는 `(36, 28)`, 점수 `0x2B`는 43입니다.*
+
+**Event → NPU → Control 통합**
+
+[![이벤트 입력·텐서 전송·NPU 추론·제어 상태의 통합 XSim 파형](./assets/event_npu_end_to_end_xsim.png)](./assets/event_npu_end_to_end_xsim.png)
+
+*여러 윈도의 이벤트 입력과 추론 반복을 확인합니다. 해당 시험에서는 Hardware Arm이 비활성이라 `laser_en=0`을 유지합니다. 실물 시연과 구분되는 RTL 시뮬레이션 기록입니다.*
+
 ### Model & Numerical Validation
 
 | 항목 | 결과 | 검증 범위 |
@@ -318,6 +346,10 @@ NPU 측정값은 **100 MHz에서 125,845 cycles**입니다. 위 비교는 발표
 
 ### Timing & Integration
 
+[![Vivado 전체 SoC Timing Summary](./assets/vivado_timing_summary.png)](./assets/vivado_timing_summary.png)
+
+*전체 SoC 배치·배선 결과: WNS +0.618 ns, WHS +0.043 ns, 타이밍 실패 endpoint 0.*
+
 | 항목 | 결과 | 근거 |
 |---|---|---|
 | PL Clock | 100 MHz Timing MET | 최종 발표자료 |
@@ -328,6 +360,19 @@ NPU 측정값은 **100 MHz에서 125,845 cycles**입니다. 위 비교는 발표
 
 각 PASS 수치는 해당 버전의 기록입니다. 8/30 통합 문서에는 최신 보드 조합의 카메라 closed-loop 재검증이 대기로 남아 있으므로, 시뮬레이션·호스트 결과와 최종 발표의 시연 결과를 구분합니다. 팀원 저장소의 NPU OOC WNS +0.752 ns 역시 별도 구현 결과로 취급합니다.
 
+### FPGA Resource Utilization
+
+[![Vivado 전체 SoC 자원 사용량](./assets/vivado_utilization.png)](./assets/vivado_utilization.png)
+
+| Resource | Used | Available | Utilization |
+|---|---:|---:|---:|
+| LUT | 2,324 | 53,200 | 4.37% |
+| FF | 2,188 | 106,400 | 2.06% |
+| BRAM Tile | 12 | 140 | 8.57% |
+| DSP | 18 | 220 | 8.18% |
+
+*`npu_bd_wrapper` 전체 Block Design 구현 결과이며, NPU 단독 자원 사용량과 구분합니다.*
+
 ---
 
 ## 11. Repository Structure
@@ -336,6 +381,7 @@ NPU 측정값은 **100 MHz에서 125,845 cycles**입니다. 위 비교는 발표
 
 ```text
 NPU_Project/
+├── assets/              # README 하드웨어·블록도·검증 이미지
 ├── ai/                  # Dataset, CNN, Quantization, Integer Golden
 ├── rtl/
 │   ├── npu/             # Dense INT8 NPU
@@ -422,6 +468,8 @@ NPU_Project/
 | [Team Member Repository](https://github.com/dlgus0630/Project06_EventCamera) | 전체 구조·성능·구현 결과 설명 |
 
 팀 산출물의 모델·NPU·제어 전체를 소개하며, 개인 기여 범위는 **Team & Contribution**에 명시했습니다. 학습 모델의 정확도, RTL 수치 일치, 타이밍 검증, 실물 시연은 서로 다른 검증 항목으로 구분합니다.
+
+README의 하드웨어 구성 이미지와 Vivado·XSim 캡처 6개는 같은 팀 프로젝트의 [팀원 저장소](https://github.com/dlgus0630/Project06_EventCamera)에서 가져왔습니다. 원본 출처는 [이미지 출처 기록](./assets/SOURCES.md)에 정리했습니다.
 
 ---
 
