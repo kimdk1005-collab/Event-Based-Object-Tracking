@@ -21,7 +21,7 @@
 
 INT8 Exact Cell Accuracy **92.02%** · NPU Inference **1.258 ms** · PL Clock **100 MHz**
 
-[▶ 시연 영상](https://www.youtube.com/watch?v=w5nIa1r8d8o) · [팀 통합 저장소](https://github.com/kimdk1005-collab/NPU_Project) · [팀원 프로젝트 자료](https://github.com/dlgus0630/Project06_EventCamera)
+[▶ 시연 영상](https://www.youtube.com/watch?v=w5nIa1r8d8o) · [팀 통합 저장소](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking) · [팀원 프로젝트 자료](https://github.com/dlgus0630/Project06_EventCamera)
 
 </div>
 
@@ -380,7 +380,7 @@ NPU 측정값은 **100 MHz에서 125,845 cycles**입니다. 위 비교는 발표
 팀 통합 저장소의 주요 디렉터리와 역할입니다.
 
 ```text
-NPU_Project/
+Event-Based-Object-Tracking/
 ├── assets/              # README 하드웨어·블록도·검증 이미지
 ├── ai/                  # Dataset, CNN, Quantization, Integer Golden
 ├── rtl/
@@ -410,14 +410,14 @@ NPU_Project/
 
 | File | Description |
 |---|---|
-| [`event_adapter.v`](https://github.com/kimdk1005-collab/NPU_Project/blob/main/rtl/event/event_adapter.v) | 좌표 binning, 입력 범위 검사, 윈도 경계 정렬 |
-| [`event_accumulator.v`](https://github.com/kimdk1005-collab/NPU_Project/blob/main/rtl/event/event_accumulator.v) | 포화 누적, forwarding, Ping-Pong 텐서 버퍼 |
-| [`tracking_controller.v`](https://github.com/kimdk1005-collab/NPU_Project/blob/main/rtl/control/tracking_controller.v) | Dead Zone, P 제어, 이동량·위치 제한 |
-| [`servo_pwm.v`](https://github.com/kimdk1005-collab/NPU_Project/blob/main/rtl/control/servo_pwm.v) | 위치 명령에 따른 서보 PWM |
-| [`laser_head_controller.v`](https://github.com/kimdk1005-collab/NPU_Project/blob/main/rtl/control/laser_head_controller.v) | 레이저 헤드 위치 계산 및 보정 |
-| [`laser_interlock.v`](https://github.com/kimdk1005-collab/NPU_Project/blob/main/rtl/control/laser_interlock.v) | 출력 허용·비상 정지·재무장·watchdog |
-| [`dual_head_control.v`](https://github.com/kimdk1005-collab/NPU_Project/blob/main/rtl/control/dual_head_control.v) | 카메라·레이저 4축 제어 통합 |
-| [`c_event_control_top.v`](https://github.com/kimdk1005-collab/NPU_Project/blob/main/rtl/control/c_event_control_top.v) | C Event/Control 통합 Top |
+| [`event_adapter.v`](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/rtl/event/event_adapter.v) | 좌표 binning, 입력 범위 검사, 윈도 경계 정렬 |
+| [`event_accumulator.v`](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/rtl/event/event_accumulator.v) | 포화 누적, forwarding, Ping-Pong 텐서 버퍼 |
+| [`tracking_controller.v`](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/rtl/control/tracking_controller.v) | Dead Zone, P 제어, 이동량·위치 제한 |
+| [`servo_pwm.v`](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/rtl/control/servo_pwm.v) | 위치 명령에 따른 서보 PWM |
+| [`laser_head_controller.v`](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/rtl/control/laser_head_controller.v) | 레이저 헤드 위치 계산 및 보정 |
+| [`laser_interlock.v`](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/rtl/control/laser_interlock.v) | 출력 허용·비상 정지·재무장·watchdog |
+| [`dual_head_control.v`](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/rtl/control/dual_head_control.v) | 카메라·레이저 4축 제어 통합 |
+| [`c_event_control_top.v`](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/rtl/control/c_event_control_top.v) | C Event/Control 통합 Top |
 
 ---
 
@@ -462,9 +462,9 @@ NPU_Project/
 | 자료 | 내용 |
 |---|---|
 | 최종 발표자료 9·21·28·30쪽 | 역할 분담, CPU/NPU 비교, 검증 결과, 모델 개선 과정 |
-| [Team Repository](https://github.com/kimdk1005-collab/NPU_Project) | 역할별 소스와 공통 명세 |
-| [C Event / Control Handoff](https://github.com/kimdk1005-collab/NPU_Project/blob/main/handoff/C_EVENT_CONTROL_HANDOFF.md) | 본인 담당 설계·실측·검증 기록 |
-| [Project Status](https://github.com/kimdk1005-collab/NPU_Project/blob/main/docs/PROJECT_STATUS.md) | 2026-08-30 통합 상태 및 잔여 검증 항목 |
+| [Team Repository](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking) | 역할별 소스와 공통 명세 |
+| [C Event / Control Handoff](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/handoff/C_EVENT_CONTROL_HANDOFF.md) | 본인 담당 설계·실측·검증 기록 |
+| [Project Status](https://github.com/kimdk1005-collab/Event-Based-Object-Tracking/blob/main/docs/PROJECT_STATUS.md) | 2026-08-30 통합 상태 및 잔여 검증 항목 |
 | [Team Member Repository](https://github.com/dlgus0630/Project06_EventCamera) | 전체 구조·성능·구현 결과 설명 |
 
 팀 산출물의 모델·NPU·제어 전체를 소개하며, 개인 기여 범위는 **Team & Contribution**에 명시했습니다. 학습 모델의 정확도, RTL 수치 일치, 타이밍 검증, 실물 시연은 서로 다른 검증 항목으로 구분합니다.
